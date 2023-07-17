@@ -82,6 +82,34 @@ Server:
   GitCommit:        f19387a6bec4944c77
 ```
 
+## app containerization 
+
+<img src="appc.png">
+
+### app containerization 2
+
+<img src="appc2.png">
+
+## creating a directory structure for various examples
+
+```
+[ashu@ip-172-31-9-111 ~]$ whoami
+ashu
+[ashu@ip-172-31-9-111 ~]$ ls
+[ashu@ip-172-31-9-111 ~]$ mkdir  ashu-apps
+[ashu@ip-172-31-9-111 ~]$ ls
+ashu-apps
+[ashu@ip-172-31-9-111 ~]$ mkdir  ashu-apps/java-app
+[ashu@ip-172-31-9-111 ~]$ mkdir  ashu-apps/node-app
+[ashu@ip-172-31-9-111 ~]$ mkdir  ashu-apps/ui-app
+[ashu@ip-172-31-9-111 ~]$ mkdir  ashu-apps/python-app
+[ashu@ip-172-31-9-111 ~]$ ls ashu-apps/
+java-app  node-app  python-app  ui-app
+[ashu@ip-172-31-9-111 ~]$ 
+
+
+```
+
 
 
 
