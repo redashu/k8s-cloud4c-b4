@@ -85,4 +85,28 @@ bee9715364d0   ashu-uiapp:v1      "/docker-entrypoint.…"   3 seconds ago   Up 
 [ashu@ip-172-31-9-111 ui-app]$ 
 ```
 
+### Resources consumption by container will same app need
+
+```
+ 45  docker  stats ashuuic1 
+   46  docker  stats 
+```
+
+## more container operations 
+
+### stop/kill
+
+```
+[ashu@ip-172-31-9-111 ui-app]$ docker  kill ashuuic1
+ashuuic1
+```
+
+### remove container as well
+
+```
+[ashu@ip-172-31-9-111 ui-app]$ docker rm  ashuuic1
+ashuuic1
+```
+
+
 
