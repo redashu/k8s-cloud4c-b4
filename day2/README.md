@@ -67,6 +67,22 @@ ashu-uiapp      v1        e66083f54983   23 seconds ago   190MB
 mahesh-uiapp    v1        72e0f6337047   25 seconds ago   190MB
 nginx           latest    021283c8eb95   13 days ago      187MB
 ```
+## image to container 
 
+<img src="i2c.png">
+
+### creating container and verify it 
+
+```
+[ashu@ip-172-31-9-111 ui-app]$ docker run --name ashuuic1 -d  ashu-uiapp:v1  
+bee9715364d045c8440c1a48526463a152cfd431dfc3af815b4245e0724979ab
+
+======> verify list 
+[ashu@ip-172-31-9-111 ui-app]$ docker ps
+CONTAINER ID   IMAGE              COMMAND                  CREATED         STATUS                  PORTS     NAMES
+eb93c408e3b8   karteek-uiapp:v1   "/docker-entrypoint.…"   2 seconds ago   Up Less than a second   80/tcp    karteekuic1
+bee9715364d0   ashu-uiapp:v1      "/docker-entrypoint.…"   3 seconds ago   Up 2 seconds            80/tcp    ashuuic1
+[ashu@ip-172-31-9-111 ui-app]$ 
+```
 
 
