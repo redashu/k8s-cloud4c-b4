@@ -208,3 +208,43 @@ Welcome to Cloud4c..
 Welcome to Containers ..!!
 ______________________
 ```
+
+## Understanding Docker hub Registry 
+
+
+<img src="reg.png">
+
+## pushing image to docker hub Registry
+
+### step 1 -- tag image as per docker hub format
+
+```
+docker  tag  ashu-uiapp:v1   docker.io/dockerashu/ashu-app:v1 
+```
+
+### step 2 -- login to docker hub account from docker cli 
+
+```
+[ashu@ip-172-31-9-111 python-app]$ docker  login 
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: dockerashu
+Password: 
+WARNING! Your password will be stored unencrypted in /home/ashu/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+```
+
+### pushing image
+
+```
+ashu@ip-172-31-9-111 python-app]$ docker push   docker.io/dockerashu/ashu-app:v1
+The push refers to repository [docker.io/dockerashu/ashu-app]
+f3e926ab4f2b: Pushing [=======>                                           ]  551.9kB/3.545MB
+3c9d04c9ebd5: Pushing [==================================================>]  7.168kB
+434c6a715c30: Preparing 
+9fdfd12bc85b: Pushing [=============
+```
+
+
