@@ -108,5 +108,103 @@ ashuuic1
 ashuuic1
 ```
 
+## python code to container 
+
+### taking code
+
+```
+import time
+
+while True:
+    print("Hello all , welcome to python..!!")
+    time.sleep(3)
+    print("Welcome to Cloud4c..")
+    time.sleep(2)
+    print("Welcome to Containers ..!!")
+    print("______________________")
+    time.sleep(3)
+```
+
+### Dockerfile
+
+```
+FROM python:3.10
+LABEL name=ashutoshh
+RUN mkdir /mycode 
+# we are creating a directory inside new image
+COPY ashu.py /mycode/ashu.py 
+# copy code to above directory 
+CMD ["python","/mycode/ashu.py"]
+# CMD will be automatically run code whenever we create container
+# from this docker image 
 
 
+```
+
+## building image
+
+```
+[ashu@ip-172-31-9-111 ashu-apps]$ cd python-app/
+[ashu@ip-172-31-9-111 python-app]$ ls
+ashu.py  Dockerfile
+[ashu@ip-172-31-9-111 python-app]$ docker build -t ashupython:v1  . 
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM python:3.10
+ ---> d9122363988f
+Step 2/5 : LABEL name=ashutoshh
+ ---> Running in 8ff9dcd0daf1
+Removing intermediate container 8ff9dcd0daf1
+ ---> f0a4a6622cbb
+Step 3/5 : RUN mkdir /mycode
+ ---> Running in fccde95cf2bd
+Removing intermediate container fccde95cf2bd
+ ---> 28056f25adb5
+Step 4/5 : COPY ashu.py /mycode/ashu.py
+ ---> 1b78f7f8ec16
+Step 5/5 : CMD ["python","/mycode/ashu.py"]
+ ---> Running in 8b31765a32d2
+Removing intermediate container 8b31765a32d2
+ ---> a5e4ed77cbd0
+Successfully built a5e4ed77cbd0
+Successfully tagged ashupython:v1
+```
+
+### verify 
+
+```
+ashu@ip-172-31-9-111 python-app]$ docker images
+REPOSITORY            TAG       IMAGE ID       CREATED              SIZE
+venkatpythonapp       v1        0a6e176babad   6 seconds ago        1.01GB
+rajeswari-pythonapp   v1        db030127c02a   18 seconds ago       1GB
+ashupython            v1        a5e4ed77cbd0   51 seconds ago       1GB
+mogal-pythonapp       v1        0c5d6339aadc   About a minute ago   1GB
+karteekpythonc1       v1        695ec50f0a92   About a minute ago   1GB
+mahesh-pythonapp      latest    cd09561a6d40   2 minutes ago        1GB
+````
+
+### creating container
+
+```
+[ashu@ip-172-31-9-111 python-app]$ docker run --name ashupyc1 -d -it  ashupython:v1  
+1c46d44a7403209cff78ece03e259e6295af563cf5184dcff14efffaac53278f
+[ashu@ip-172-31-9-111 python-app]$ docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED              STATUS              PORTS     NAMES
+1c46d44a7403   ashupython:v1          "python /mycode/ashu…"   4 seconds ago        Up 2 seconds                  ashupyc1
+d7de5eadd259   mogal-pythonapp:v1     "python /mycode/moga…"   11 seconds ago       Up 10 seconds                 mogalc1
+1e2eea2e5710   haritha-pythonapp:v1   "python /mycode/conf…"   About a minute ago   Up About a minute             harithapythonc1
+652e39ccf58f   cd0                    "python /mycode/mahe…"   About a minute ago   Up About a minute             mahesh-pythonapp
+```
+
+### checking output 
+
+```
+[ashu@ip-172-31-9-111 python-app]$ docker logs  ashupyc1
+Hello all , welcome to python..!!
+Welcome to Cloud4c..
+Welcome to Containers ..!!
+______________________
+Hello all , welcome to python..!!
+Welcome to Cloud4c..
+Welcome to Containers ..!!
+______________________
+```
