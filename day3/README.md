@@ -230,6 +230,85 @@ CMD ["npm","start"]
 
 <img src="apis.png">
 
+## kubectl installation link
+
+[click_here](https://kubernetes.io/docs/tasks/tools/)
+
+### verify from the download location 
+
+```
+PS C:\Users\humanfirmware> cd .\Downloads\
+PS C:\Users\humanfirmware\Downloads> .\kubectl.exe  version --client
+WARNING: This version information is deprecated and will be replaced with the output from kubectl version --short.  Use --output=yaml|json to get the full version.
+Client Version: version.Info{Major:"1", Minor:"27", GitVersion:"v1.27.3", GitCommit:"25b4e43193bcda6c7328a6d147b1fb73a33f1598", GitTreeState:"clean", BuildDate:"2023-06-14T09:53:42Z", GoVersion:"go1.20.5", Compiler:"gc", Platform:"windows/amd64"}
+Kustomize Version: v5.0.1
+PS C:\Users\humanfirmware\Downloads>
+PS C:\Users\humanfirmware\Downloads> .\kubectl.exe  version --client  -o yaml
+clientVersion:
+  buildDate: "2023-06-14T09:53:42Z"
+  compiler: gc
+  gitCommit: 25b4e43193bcda6c7328a6d147b1fb73a33f1598
+  gitTreeState: clean
+  gitVersion: v1.27.3
+  goVersion: go1.20.5
+  major: "1"
+  minor: "27"
+  platform: windows/amd64
+kustomizeVersion: v5.0.1
+```
+
+### to connect k8s control plane -- we need credential 
+
+```
+[root@masternode ~]# hostname
+masternode
+[root@masternode ~]# cd  /etc/kubernetes/
+[root@masternode kubernetes]# ls
+admin.conf  controller-manager.conf  kubelet.conf  manifests  pki  scheduler.conf
+[root@masternode kubernetes]# cat  admin.conf 
+apiVersion: v1
+
+
+```
+
+### download admin.conf file and verify it
+
+```
+[ashu@ip-172-31-9-111 node-app]$ kubectl   cluster-info  --kubeconfig admin.conf 
+Kubernetes control plane is running at https://13.200.76.193:6443
+CoreDNS is running at https://13.200.76.193:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+[ashu@ip-172-31-9-111 node-app]$ 
+```
+
+### or use below method
+
+```
+[ashu@ip-172-31-9-111 node-app]$ kubectl   version -o yaml   --kubeconfig admin.conf 
+clientVersion:
+  buildDate: "2023-06-14T09:53:42Z"
+  compiler: gc
+  gitCommit: 25b4e43193bcda6c7328a6d147b1fb73a33f1598
+  gitTreeState: clean
+  gitVersion: v1.27.3
+  goVersion: go1.20.5
+  major: "1"
+  minor: "27"
+  platform: linux/amd64
+kustomizeVersion: v5.0.1
+serverVersion:
+  buildDate: "2023-06-14T09:47:40Z"
+  compiler: gc
+  gitCommit: 25b4e43193bcda6c7328a6d147b1fb73a33f1598
+  gitTreeState: clean
+  gitVersion: v1.27.3
+  goVersion: go1.20.5
+  major: "1"
+  minor: "27"
+  platform: linux/amd64
+```
+
 
 
 
