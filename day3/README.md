@@ -201,6 +201,19 @@ CMD ["npm","start"]
 
 ```
 
+### problem with multihost container env
+
+<img src="multihost.png">
+
+### solution introduction 
+
+<img src="solution.png">
+
+### kubernetes introduction 
+
+<img src="k8s1.png">
+
+
 
 
 
