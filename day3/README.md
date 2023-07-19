@@ -214,6 +214,22 @@ CMD ["npm","start"]
 <img src="k8s1.png">
 
 
+## Understanding k8s architecture 
+
+### level 1 
+
+<img src="l1.png">
+
+### k8s client side software -- 
+
+<img src="cli.png">
+
+## info about first k8s master node componet
+
+### APi-server
+
+<img src="apis.png">
+
 
 
 
