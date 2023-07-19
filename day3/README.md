@@ -123,5 +123,84 @@ maheshnode                               V1           5a1443a36954   39 seconds 
 ashunode                                 appv1        ce00f146e406   45 seconds ago   1.1GB
 ```
 
+### having another dockerfile 
+
+```
+[ashu@ip-172-31-9-111 node-app]$ ls
+Dockerfile  node-demo-app-spinnaker  small.dockerfile
+[ashu@ip-172-31-9-111 node-app]$ docker build -t ashunodejs:v1 -f small.dockerfile  . 
+Sending build context to Docker daemon  33.79kB
+Step 1/7 : FROm node:alpine
+alpine: Pulling from library/node
+31e352740f53: Already exists 
+c0eace37d671: Pull complete 
+c3ba46e7ba31: Pull complete 
+72595614f727: Pull complete 
+Digest: sha256:1c411f88868d97e206a5fdb78cbcee49add59022ecf1f52d54f15e1d4518c5c2
+Status: Downloaded newer image for node:alpine
+ ---> 49ee0e374837
+Step 2/7 : LABEL email=ashutoshh@linux.com
+ ---> Running in ab680a20a0b9
+Removing intermediate container ab680a20a0b9
+ ---> 6fde1dc9a7dc
+Step 3/7 : RUN mkdir /myapp
+ ---> Running in 5b9e2f3df4ec
+Removing intermediate container 5b9e2f3df4ec
+ ---> 38874f4f2c36
+Step 4/7 : COPY node-demo-app-spinnaker /myapp/
+ ---> adf9aa391d5b
+Step 5/7 : WORKDIR /myapp
+ ---> Running in fe210e0324be
+Removing intermediate container fe210e0324be
+ ---> 36fa24e78a21
+Step 6/7 : RUN npm install
+ ---> Running in 889646412e65
+npm WARN old lockfile 
+npm WARN old lockfile The package-lock.json file was created with an old version of npm,
+npm WARN old lockfile so supplemental metadata must be fetched from the registry.
+npm WARN old lockfile 
+npm WARN old lockfile This is a one-time fix-up, please be patient...
+npm WARN old lockfile 
+
+added 49 packages, and audited 50 packages in 2s
+
+3 high severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+npm notice 
+npm notice New minor version of npm available! 9.7.2 -> 9.8.0
+npm notice Changelog: <https://github.com/npm/cli/releases/tag/v9.8.0>
+npm notice Run `npm install -g npm@9.8.0` to update!
+npm notice 
+Removing intermediate container 889646412e65
+ ---> c486b5344028
+Step 7/7 : CMD ["npm","start"]
+ ---> Running in 6f7ff99e6a48
+Removing intermediate container 6f7ff99e6a48
+ ---> 2a5d82047f86
+Successfully built 2a5d82047f86
+Successfully tagged ashunodejs:v1
+[ashu@ip-172-31-9-111 node-app]$ 
+```
+
+### small.dockerfile
+
+```
+FROm node:alpine
+LABEL email=ashutoshh@linux.com
+RUN mkdir /myapp 
+COPY node-demo-app-spinnaker /myapp/
+WORKDIR /myapp
+# to change directory like cd in linux / unix 
+RUN npm install 
+CMD ["npm","start"]
+# cmd is only gonna call when we create container 
+
+```
+
+
 
 
