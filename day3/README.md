@@ -308,6 +308,30 @@ serverVersion:
   minor: "27"
   platform: linux/amd64
 ```
+### lets copy file to default location 
+
+```
+[ashu@ip-172-31-9-111 node-app]$ mkdir  ~/.kube
+mkdir: cannot create directory ‘/home/ashu/.kube’: File exists
+[ashu@ip-172-31-9-111 node-app]$ 
+[ashu@ip-172-31-9-111 node-app]$ ls  /home/ashu/.kube/
+cache
+[ashu@ip-172-31-9-111 node-app]$ cp -v admin.conf   ~/.kube/config 
+‘admin.conf’ -> ‘/home/ashu/.kube/config’
+[ashu@ip-172-31-9-111 node-app]$ 
+[ashu@ip-172-31-9-111 node-app]$ kubectl   cluster-info 
+Kubernetes control plane is running at https://13.200.76.193:6443
+CoreDNS is running at https://13.200.76.193:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+[ashu@ip-172-31-9-111 node-app]$ kubectl   get  nodes
+NAME         STATUS   ROLES           AGE     VERSION
+masternode   Ready    control-plane   4h49m   v1.27.3
+node1        Ready    <none>          4h48m   v1.27.3
+node2        Ready    <none>          4h48m   v1.27.3
+node3        Ready    <none>          4h48m   v1.27.3
+```
+
 
 
 
