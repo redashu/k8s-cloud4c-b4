@@ -64,7 +64,7 @@ bc305fc3c296: Pushed
 
 ### creating pod using manifest file 
 
-<img src="file.png">
+<img src="manifest.png">
 
 ### creating a directory to put manifest
 
