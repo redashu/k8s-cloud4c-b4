@@ -54,6 +54,62 @@ bc305fc3c296: Pushed
 89e26aac0240: Mounted from library/node 
 ```
 
+### understanding role or kubelet and docker in minion node 
 
+<img src="node1.png">
+
+### Introduction to pod 
+
+<img src="pod1.png">
+
+### creating pod using manifest file 
+
+<img src="file.png">
+
+### creating a directory to put manifest
+
+```
+[ashu@ip-172-31-9-111 ashu-apps]$ ls
+java-app  node-app  python-app  ui-app
+[ashu@ip-172-31-9-111 ashu-apps]$ mkdir  ashu-k8s-manifest
+[ashu@ip-172-31-9-111 ashu-apps]$ ls
+ashu-k8s-manifest  java-app  node-app  python-app  ui-app
+[ashu@ip-172-31-9-111 ashu-apps]$ ls  ashu-k8s-manifest/
+ashu-nodeapp-pod1.yaml
+[ashu@ip-172-31-9-111 ashu-apps]$ 
+
+```
+
+### first pod manifest 
+
+```
+apiVersion: v1 # we are targing api server version 1 
+kind: Pod # we are asking k8s master to take req about pod
+metadata: # info about Kind value
+  name: ashu-nodeapp-pod1 # name of my pod 
+spec: # everything we need in pod 
+  containers: 
+  - name: ashuc1
+    image: docker.io/dockerashu/nodeapp:v1 
+```
+
+### lets deploy it 
+
+```
+[ashu@ip-172-31-9-111 ashu-apps]$ ls
+ashu-k8s-manifest  java-app  node-app  python-app  ui-app
+[ashu@ip-172-31-9-111 ashu-apps]$ cd  ashu-k8s-manifest/
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ ls
+ashu-nodeapp-pod1.yaml
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   create  -f  ashu-nodeapp-pod1.yaml 
+pod/ashu-nodeapp-pod1 created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME                  READY   STATUS    RESTARTS   AGE
+ashu-nodeapp-pod1     1/1     Running   0          18s
+harithanodeapp-pod1   1/1     Running   0          14s
+mogal-nodeapp-pod1    1/1     Running   0          14s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
 
 
