@@ -60,3 +60,9 @@ pod/ashupod1 created
 pod "ashupod1" deleted
 
 ```
+
+
+### task 1
+
+<img src="task1.png">
+
