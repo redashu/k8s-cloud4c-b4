@@ -114,5 +114,38 @@ okhello
 adminer@ashupod-task1:/var/www/html$ exit
 exit
 ```
+## Introduction to namespace
 
+<img src="ns.png">
+
+### creating custom namespace
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   create  namespace  ashu-space --dry-run=client -o yaml >ns.yaml 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f ns.yaml 
+namespace/ashu-space created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  namespaces 
+NAME              STATUS   AGE
+abbas-apps        Active   7h31m
+adithya-apps      Active   7h28m
+ankita-apps       Active   7h33m
+ashu-apps         Active   7h33m
+ashu-space        Active   6s
+```
+
+### setting namespace as default 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+No resources found in default namespace.
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   config  set-context  --current --namespace=ashu-space
+Context "kubernetes-admin@kubernetes" modified.
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+No resources found in ashu-space namespace.
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+
+
+```
 
