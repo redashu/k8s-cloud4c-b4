@@ -180,4 +180,16 @@ ashu-ui-pod   1/1     Running   0          23s   192.168.104.59   node2   <none>
 
 ```
 
+### testing pod comm
 
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   exec -it  ashu-ui-pod  -- bash 
+root@ashu-ui-pod:/# 
+root@ashu-ui-pod:/# curl  http://192.168.104.61:80
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+root@ashu-ui-pod:/# curl  http://192.168.166.182
+<!DOCTYPE html>
+```
