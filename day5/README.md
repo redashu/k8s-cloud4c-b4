@@ -145,7 +145,38 @@ Context "kubernetes-admin@kubernetes" modified.
 No resources found in ashu-space namespace.
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 
+```
 
+### Networking in k8s 
+
+<img src="net1.png">
+
+## Using CONtainer network interface (CNI) distributed bridge concpet 
+
+### each pod can connect to other pod as well
+
+<img src="podn2.png">
+
+## testing pod communication 
+
+### creating pod 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   run ashu-ui-pod --image=nginx:1.24  --port 80 --dry-run=client -o yaml >ui.yaml
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ ls
+ashu-nodeapp-pod1.yaml  auto.yaml  hello.json  ns.yaml  task1.yaml  ui.yaml
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+==========>>
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f ui.yaml 
+pod/ashu-ui-pod created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  po -o wide
+NAME          READY   STATUS              RESTARTS   AGE   IP       NODE    NOMINATED NODE   READINESS GATES
+ashu-ui-pod   0/1     ContainerCreating   0          5s    <none>   node2   <none>           <none>
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  po -o wide
+NAME          READY   STATUS    RESTARTS   AGE   IP               NODE    NOMINATED NODE   READINESS GATES
+ashu-ui-pod   1/1     Running   0          23s   192.168.104.59   node2   <none>           <none>
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 
 ```
 
