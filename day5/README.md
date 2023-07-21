@@ -28,3 +28,35 @@ ashu-nodeapp-pod1.yaml  auto.yaml  hello.json
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 
 ```
+
+### creating manifest request
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f  auto.yaml 
+pod/ashupod1 created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  pods
+NAME                READY   STATUS    RESTARTS   AGE
+ashupod1            1/1     Running   0          3s
+```
+
+### replace and delete with manifest 
+
+```
+ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  delete -f auto.yaml 
+pod "ashupod1" deleted
+
+kubectl  replace -f auto.yaml --force
+
+```
+
+### same command with json based manifest as well
+
+```
+ashu@ip-172-31-9-111 ashu-k8s-manifest]$ ls
+ashu-nodeapp-pod1.yaml  auto.yaml  hello.json
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f hello.json 
+pod/ashupod1 created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  delete -f hello.json 
+pod "ashupod1" deleted
+
+```
