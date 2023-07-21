@@ -66,3 +66,53 @@ pod "ashupod1" deleted
 
 <img src="task1.png">
 
+### solution 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashupod-task1
+  name: ashupod-task1
+spec:
+  nodeName: node3  # static scheduling of pod 
+  containers:
+  - image: adminer:4.8.1
+    name: ashupod-task1
+    ports:
+    - containerPort: 8080
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### checking 
+
+```
+ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  replace -f task1.yaml  --force 
+pod "ashupod-task1" deleted
+pod/ashupod-task1 replaced
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get po -o wide
+NAME                READY   STATUS              RESTARTS   AGE     IP                NODE     NOMINATED NODE   READINESS GATES
+ashupod-task1       0/1     ContainerCreating   0          5s      <none>            node3    <none>           <none>
+hari-nodeapp-pod1   1/1     Running             0          8m32s   192.168.166.178   node1    <none>           <none>
+karteekpod-adm1     0/1     
+```
+
+### accessing container inside pod from kubectl 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   exec -it  ashupod-task1  -- bash 
+adminer@ashupod-task1:/var/www/html$ 
+adminer@ashupod-task1:/var/www/html$ mkdir  /tmp/okhello
+adminer@ashupod-task1:/var/www/html$ ls /tmp/
+okhello
+adminer@ashupod-task1:/var/www/html$ exit
+exit
+```
+
+
