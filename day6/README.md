@@ -38,3 +38,21 @@ ashu-app   1/1     Running   0          8s    192.168.166.139   node1   <none>  
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 
 ```
+
+###  testing pod to pod access using http request
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME       READY   STATUS    RESTARTS   AGE
+ashu-app   1/1     Running   0          4m46s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   exec -it  ashu-app -- bash 
+root@ashu-app:/# 
+root@ashu-app:/# 
+root@ashu-app:/# curl http://192.168.135.24/health.html 
+<h1> this is sample page for health check purpose of web app by ashutoshh  </h1>
+<h2> adding more health page data  new </h2>
+<h3> ashutoshh adding a new change 1st now 2nd  okk change 3  </h3>
+root@ashu-app:/# 
+
+```
+
