@@ -56,3 +56,9 @@ root@ashu-app:/#
 
 ```
 
+### general user traffice to access app -- user-->nodes-->pods
+
+<img src="pod1.png">
+
+
+
