@@ -43,5 +43,38 @@ project-html-website/*.md
 ## build docker image 
 
 ```
+ashu@ip-172-31-9-111 day7-app]$ ls
+Dockerfile  project-html-website
+[ashu@ip-172-31-9-111 day7-app]$ docker  build  -t  docker.io/dockerashu/day7ui:appv1  . 
+Sending build context to Docker daemon    834kB
+Step 1/3 : FROM nginx
+ ---> 021283c8eb95
+Step 2/3 : LABEL name=ashutoshh
+ ---> Using cache
+ ---> 5815b9197f2e
+Step 3/3 : COPY  project-html-website /usr/share/nginx/html/
+ ---> 2fdf8ae3e64f
+Successfully built 2fdf8ae3e64f
+Successfully tagged dockerashu/day7ui:appv1
+```
+
+### pushing image to docker hub 
 
 ```
+hu@ip-172-31-9-111 day7-app]$ 
+[ashu@ip-172-31-9-111 day7-app]$ docker login 
+Authenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /home/ashu/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[ashu@ip-172-31-9-111 day7-app]$ docker push  docker.io/dockerashu/day7ui:appv1 
+The push refers to repository [docker.io/dockerashu/day7ui]
+7654c17d325e: Pushing [==>                                                ]  40.96kB/822.2kB
+3c9d04c9ebd5: Preparing 
+434c6a715c30: Preparing 
+9fdfd12bc85b: Preparing 
+```
+
+
