@@ -128,4 +128,77 @@ ashulb2   LoadBalancer   10.110.170.159   <pending>     80:30566/TCP   3s
 
 ```
 
+### deleting pod and svc from personal namespace
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get pod
+NAME           READY   STATUS    RESTARTS   AGE
+ashu-day7pod   1/1     Running   0          20m
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  delete pods --all
+pod "ashu-day7pod" deleted
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  delete svc --all
+service "ashulb1" deleted
+service "ashulb2" deleted
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  delete  pod,svc --all
+No resources found
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+
+```
+
+### trying to deploy private registry docker image to k8s cluster
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  run ashu-app --image=cloud4c.azurecr.io/day7app:uiv1 --port 80 --dry-run=client -o yaml >private.yaml 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ ls
+apptest.yaml  ashu-nodeapp-pod1.yaml  auto.yaml  day7pod.yaml  hello.json  lb1.yaml  lb.yaml  nplb.yaml  ns.yaml  private.yaml  task1.yaml  ui.yaml
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f private.yaml 
+pod/ashu-app created
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+====>
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME       READY   STATUS         RESTARTS   AGE
+ashu-app   0/1     ErrImagePull   0          39s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME       READY   STATUS             RESTARTS   AGE
+ashu-app   0/1     ImagePullBackOff   0          51s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+### Introduction to secret 
+
+<img src="secret.png">
+
+### creating secret
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   create  secret
+Create a secret using specified subcommand.
+
+Available Commands:
+  docker-registry   Create a secret for use with a Docker registry
+  generic           Create a secret from a local file, directory, or literal value
+  tls               Create a TLS secret
+
+Usage:
+  kubectl create secret [flags] [options]
+
+Use "kubectl <command> --help" for more information about a given command.
+Use "kubectl options" for a list of global command-line options (applies to all commands).
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   create  secret  docker-registry  ashu-reg-cred  --docker-server=cloud4c.azurecr.io  --docker-username="cloud4c"  --docker-password="92YWD"  --dry-run=client -o yaml >azure_secret.yaml
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f azure_secret.yaml 
+secret/ashu-reg-cred created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  secret
+NAME            TYPE                             DATA   AGE
+ashu-reg-cred   kubernetes.io/dockerconfigjson   1      3s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
+
+
 
