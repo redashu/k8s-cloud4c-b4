@@ -237,6 +237,30 @@ ashu-app   1/1     Running   0          4s
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 ```
 
+### using k8s dashboard to access 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  svc  -n  kubernetes-dashboard
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+dashboard-metrics-scraper   ClusterIP   10.101.225.208   <none>        8000/TCP   9h
+kubernetes-dashboard        ClusterIP   10.111.8.215     <none>        443/TCP    9h
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   edit   svc  kubernetes-dashboard   -n  kubernetes-dashboard
+service/kubernetes-dashboard edited
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  svc  -n  kubernetes-dashboard
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE
+dashboard-metrics-scraper   ClusterIP   10.101.225.208   <none>        8000/TCP        9h
+kubernetes-dashboard        NodePort    10.111.8.215     <none>        443:32668/TCP   9h
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+### creating dashboard token 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create token kubernetes-dashboard   -n kubernetes-dashboard 
+eyJhbGciOiJSUzI1NiIsImtpZCI6InlYNW5VdTJrc0JESW1pUk9KUnhYUVdtTnNwNXhwQkNFZVl0ZDh4SS16TW8ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNj
+
+```
+
 
 
 
