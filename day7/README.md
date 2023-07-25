@@ -77,4 +77,21 @@ The push refers to repository [docker.io/dockerashu/day7ui]
 9fdfd12bc85b: Preparing 
 ```
 
+### using above docker hub image lets create pod manifest
 
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ ls
+apptest.yaml  ashu-nodeapp-pod1.yaml  auto.yaml  hello.json  lb1.yaml  ns.yaml  task1.yaml  ui.yaml
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  run  ashu-day7pod --image=docker.io/dockerashu/day7ui:appv1 --port 80 --dry-run=client -o yaml >day7pod.yaml
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f day7pod.yaml 
+pod/ashu-day7pod created
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  pods
+NAME           READY   STATUS              RESTARTS   AGE
+ashu-day7pod   0/1     ContainerCreating   0          2s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
+
+###
