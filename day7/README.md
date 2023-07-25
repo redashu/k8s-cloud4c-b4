@@ -94,4 +94,22 @@ ashu-day7pod   0/1     ContainerCreating   0          2s
 
 ```
 
-###
+### creating service (Loadbalancer)
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME           READY   STATUS    RESTARTS   AGE
+ashu-day7pod   1/1     Running   0          5m44s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   expose pod  ashu-day7pod  --type NodePort --port 80 --name ashulb1 --dry-run=client -o yaml >nplb.yaml
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f nplb.yaml 
+service/ashulb1 created
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  svc
+NAME      TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+ashulb1   NodePort   10.98.32.108   <none>        80:32453/TCP   2s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
+
