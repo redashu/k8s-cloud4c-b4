@@ -200,5 +200,43 @@ ashu-reg-cred   kubernetes.io/dockerconfigjson   1      3s
 
 ```
 
+### calling secret in pod yaml file
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashu-app
+  name: ashu-app
+spec:
+  imagePullSecrets: # for calling registry cred using secret
+  - name: ashu-reg-cred 
+  containers:
+  - image: cloud4c.azurecr.io/day7app:uiv1
+    name: ashu-app
+    ports:
+    - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### lets redeploy it
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  replace -f private.yaml  --force
+pod "ashu-app" deleted
+pod/ashu-app replaced
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME       READY   STATUS    RESTARTS   AGE
+ashu-app   1/1     Running   0          4s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+
 
 
