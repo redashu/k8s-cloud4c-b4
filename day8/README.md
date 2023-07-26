@@ -1,3 +1,5 @@
+
+
 # k8s-cloud4c-b4
 
 ### connecting to the lab env
@@ -93,4 +95,63 @@ ashu-java-app-6d9698856c-574d6   0/1     ContainerCreating   0          19s   <n
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 
 ```
+
+### scaling pod 
+
+```
+apiVersion: apps/v1 # 
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-java-app
+  name: ashu-java-app # name of deployment 
+spec:
+  replicas: 3 # number of pod we want 
+  selector:
+    matchLabels:
+      app: ashu-java-app
+  strategy: {}
+  template: # using template deployment create pods 
+    metadata:
+      creationTimestamp: null
+      labels: # pods label 
+        app: ashu-java-app
+    spec:
+      containers:
+      - image: dockerashu/nodeapp:v1
+        name: ashu-javaweb
+        ports:
+        - containerPort: 3000
+        resources: {}
+status: {}
+
+```
+
+### use apply command to make changes
+
+```
+ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  apply  -f deployment1.yaml 
+deployment.apps/ashu-java-app configured
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  pod -o wide
+NAME                             READY   STATUS    RESTARTS   AGE     IP                NODE    NOMINATED NODE   READINESS GATES
+ashu-java-app-5c966659b5-c298t   1/1     Running   0          8m32s   192.168.104.58    node2   <none>           <none>
+ashu-java-app-5c966659b5-fnw8c   1/1     Running   0          3m28s   192.168.166.141   node1   <none>           <none>
+ashu-java-app-5c966659b5-nqvzv   1/1     Running   0          3m28s   192.168.135.44    node3   <none>           <none>
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
+
+### deleting deploy 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   delete  -f deployment1.yaml 
+deployment.apps "ashu-java-app" deleted
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+
+
 
