@@ -261,6 +261,24 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6InlYNW5VdTJrc0JESW1pUk9KUnhYUVdtTnNwNXhwQkNFZVl0ZDh4
 
 ```
 
+### exposing deployment to create service
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  deploy
+NAME        READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-appp   4/4     4            4           10m
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   expose   deployment  ashu-appp  --type  NodePort --port 3000 --name ashulb --dry-run=client -o yaml      >lbss.yaml 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f lbss.yaml 
+service/ashulb created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  svc
+NAME     TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+ashulb   NodePort   10.99.33.207   <none>        3000:31831/TCP   3s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
+
+
 
 
 
