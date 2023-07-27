@@ -47,6 +47,32 @@ ashu-react-app-cff887d7f-6jkxn   1/1     Running   0          19s
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 ```
 
+## pod scaling manually 
+
+<img src="pod1.png">
+
+### manual pod scaling without manifest file 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  deploy 
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-react-app   1/1     1            1           7m3s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  scale  deployment  ashu-react-app  --replicas 4 
+deployment.apps/ashu-react-app scaled
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  deploy 
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-react-app   4/4     4            4           7m27s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get po 
+NAME                             READY   STATUS    RESTARTS   AGE
+ashu-react-app-cff887d7f-52gp4   1/1     Running   0          12s
+ashu-react-app-cff887d7f-6jkxn   1/1     Running   0          7m33s
+ashu-react-app-cff887d7f-hc2x9   1/1     Running   0          12s
+ashu-react-app-cff887d7f-lt5cn   1/1     Running   0          12s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+
 
 
 
