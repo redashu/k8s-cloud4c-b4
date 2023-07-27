@@ -124,7 +124,102 @@ ashu-db   0/1     Error    1 (19s ago)   32s
 
 ```
 
-  
+### using ENV to pass root password 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashu-db
+  name: ashu-db
+spec:
+  containers:
+  - image: mysql
+    name: ashu-db
+    ports:
+    - containerPort: 3306
+    resources: {}
+    env: # create or use ENV in the pod 
+    - name: MYSQL_ROOT_PASSWORD
+      value: "Cloud4c@db9" # password of mysql root user 
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### recdeploy it 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  replace -f mysqldbpod.yaml   --force
+pod "ashu-db" deleted
+pod/ashu-db replaced
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  pods
+NAME      READY   STATUS    RESTARTS   AGE
+ashu-db   1/1     Running   0          9s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+### creating secret to store mysql root password
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create  secret  generic  ashu-db-pass  --from-literal  myrootpass="Db9@12345" --dry-run=client -o yaml   >dbpass-secret.yaml 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f dbpass-secret.yaml 
+secret/ashu-db-pass created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  secret 
+NAME            TYPE                             DATA   AGE
+ashu-db-pass    Opaque                           1      4s
+ashu-reg-cred   kubernetes.io/dockerconfigjson   1      2d
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
+
+### calling secret in mysql pod manifest 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashu-db
+  name: ashu-db
+spec:
+  containers:
+  - image: mysql
+    name: ashu-db
+    ports:
+    - containerPort: 3306
+    resources: {}
+    env: # create or use ENV in the pod 
+    - name: MYSQL_ROOT_PASSWORD
+      valueFrom: # reading value from 
+        secretKeyRef: # secret 
+          name: ashu-db-pass # name of secret 
+          key: myrootpass # key of secret 
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### redeploy it
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  replace -f mysqldbpod.yaml  --force 
+pod "ashu-db" deleted
+pod/ashu-db replaced
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME      READY   STATUS    RESTARTS   AGE
+ashu-db   1/1     Running   0          5s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+
 
 
 
