@@ -29,4 +29,24 @@ pod "ashu-appp-7b99cb4549-9fm5j" deleted
 pod "ashu-appp-7b99cb4549-hd5ml" deleted
 ```
 
+### understanding image deployment in public and private sense 
+
+<img src="dep1.png">
+
+### creating deployment manifest file 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl create -f day9_deployment.yaml 
+deployment.apps/ashu-react-app created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  deploy
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-react-app   1/1     1            1           4s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pods
+NAME                             READY   STATUS    RESTARTS   AGE
+ashu-react-app-cff887d7f-6jkxn   1/1     Running   0          19s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+```
+
+
+
 
