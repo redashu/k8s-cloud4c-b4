@@ -72,6 +72,24 @@ ashu-react-app-cff887d7f-lt5cn   1/1     Running   0          12s
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 ```
 
+### creating loadbalnacer type service by exposing deployment 
+
+```
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  deploy
+NAME             READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-react-app   4/4     4            4           11m
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  expose  deployment ashu-react-app --type LoadBalancer --port 3000 --name  ashulb9 --dry-run=client -o yaml >svc9.yaml 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f svc9.yaml 
+service/ashulb9 created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  svc
+NAME      TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+ashulb9   LoadBalancer   10.107.130.249   <pending>     3000:30868/TCP   2s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
+
+
+
 
 
 
