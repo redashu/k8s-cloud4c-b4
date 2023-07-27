@@ -88,7 +88,43 @@ ashulb9   LoadBalancer   10.107.130.249   <pending>     3000:30868/TCP   2s
 
 ```
 
+## Importance of Secret of Developers
 
+<img src="devsec.png">
+
+### creating database POd 
+
+```
+kubectl   run  ashu-db --image=mysql  --port 3306 --dry-run=client -o yaml  >mysqldbpod.yaml
+
+====
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  create -f mysqldbpod.yaml 
+pod/ashu-db created
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pod
+NAME      READY   STATUS              RESTARTS   AGE
+ashu-db   0/1     ContainerCreating   0          8s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+
+====> Error
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   get  pod
+NAME      READY   STATUS   RESTARTS      AGE
+ashu-db   0/1     Error    1 (19s ago)   32s
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl   logs  ashu-db 
+2023-07-27 13:19:36+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.34-1.el8 started.
+2023-07-27 13:19:36+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2023-07-27 13:19:36+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.34-1.el8 started.
+2023-07-27 13:19:36+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+    You need to specify one of the following as an environment variable:
+    - MYSQL_ROOT_PASSWORD
+    - MYSQL_ALLOW_EMPTY_PASSWORD
+    - MYSQL_RANDOM_ROOT_PASSWORD
+
+
+```
+
+  
 
 
 
