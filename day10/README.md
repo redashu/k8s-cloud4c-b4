@@ -145,5 +145,27 @@ ashu-img-secre   kubernetes.io/dockerconfigjson   1      25s
 [ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
 ```
 
+### cleaning up
+
+```
+ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get  secret
+NAME             TYPE                             DATA   AGE
+ashu-img-secre   kubernetes.io/dockerconfigjson   1      11m
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get svc
+NAME        TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+ashu-lb10   NodePort   10.97.210.225   <none>        80:30378/TCP   11m
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  get deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-app   1/1     1            1           12m
+
+
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ kubectl  delete -f ashu-app-deploy.yaml 
+deployment.apps "ashu-app" deleted
+service "ashu-lb10" deleted
+secret "ashu-img-secre" deleted
+[ashu@ip-172-31-9-111 ashu-k8s-manifest]$ 
+
+```
 
 
