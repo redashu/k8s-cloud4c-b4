@@ -162,5 +162,42 @@ Warning: resource deployments/ashu-db is missing the kubectl.kubernetes.io/last-
 deployment.apps/ashu-db configured
 ```
 
+### checking db connection 
+
+```
+[ashu@ip-172-31-9-111 day11-project]$ kubectl   get  po
+NAME                      READY   STATUS    RESTARTS   AGE
+ashu-db-6bd5977cf-x6n8m   1/1     Running   0          11m
+
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  exec -it  ashu-db-6bd5977cf-x6n8m -- bash 
+bash-4.4# 
+bash-4.4# 
+bash-4.4# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
+
+mysql> exit;
+
+bash-4.4# exit
+exit
+```
+
+
+
 
 
