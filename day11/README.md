@@ -197,6 +197,36 @@ bash-4.4# exit
 exit
 ```
 
+### creating db loadbalancer using clusterIP service type
+
+```
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get deploy
+NAME      READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-db   1/1     1            1           29m
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  expose  deployment  ashu-db  --type ClusterIP --port 3306 --name ashu-db-lb --dry-run=client -o yaml >dbsvc.yaml
+
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  create -f dbsvc.yaml 
+service/ashu-db-lb created
+
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get svc
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+ashu-db-lb   ClusterIP   10.96.101.231   <none>        3306/TCP   4s
+[ashu@ip-172-31-9-111 day11-project]$
+
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get po -o wide
+NAME                      READY   STATUS    RESTARTS   AGE   IP               NODE    NOMINATED NODE   READINESS GATES
+ashu-db-6bd5977cf-x6n8m   1/1     Running   0          30m   192.168.135.38   node3   <none>           <none>
+
+[ashu@ip-172-31-9-111 day11-project]$ 
+[ashu@ip-172-31-9-111 day11-project]$ 
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get  ep 
+NAME         ENDPOINTS             AGE
+ashu-db-lb   192.168.135.38:3306   15s
+[ashu@ip-172-31-9-111 day11-project]$ 
+```
+
+
+
 
 
 
