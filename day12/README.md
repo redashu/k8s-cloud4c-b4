@@ -79,3 +79,46 @@ NAME                       READY   STATUS    RESTARTS   AGE
 ashu-db-5b6f4c7c59-vl8c9   1/1     Running   0          7s
 [ashu@ip-172-31-9-111 day11-project]$ 
 ```
+
+## webapp --deployment part 
+
+### creating manifest file 
+
+```
+ kubectl  create  deployment  ashu-webapp --image=wordpress:6.2.1-apache  --port 80 --dry-run=client -o yaml  >webapp_deploy.yaml
+```
+
+### updating manifest with db host 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-webapp
+  name: ashu-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-webapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-webapp
+    spec:
+      containers:
+      - image: wordpress:6.2.1-apache
+        name: wordpress
+        ports:
+        - containerPort: 80
+        resources: {}
+        env: # call env data
+        - name: WORDPRESS_DB_HOST
+          value: ashu-db-lb # name of the servcie 
+status: {}
+
+```
