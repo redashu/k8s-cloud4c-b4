@@ -23,3 +23,59 @@ ashu-db-lb   ClusterIP   10.96.101.231   <none>        3306/TCP   22h
 [ashu@ip-172-31-9-111 ashu-apps]$ 
 ```
 
+### updating mysql manifest file to create database initially
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-db
+  name: ashu-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-db
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-db
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        env: 
+        - name: MYSQL_DATABASE  # to create a database 
+          value: wordpress # name of database 
+        - name: MYSQL_ROOT_PASSWORD # variable to store mysql admin cred 
+          valueFrom:
+            secretKeyRef: # reading password from secret 
+              name: ashudb-root-cred
+              key: ashukey1 
+        envFrom:
+        - secretRef:
+            name: ashu-user-cred # name of the secret 
+status: {}
+
+```
+
+### apply it 
+
+```
+[ashu@ip-172-31-9-111 ashu-apps]$ cd day11-project/
+[ashu@ip-172-31-9-111 day11-project]$ ls
+db_deploy.yaml  dbsvc.yaml  root_cred.yaml  user_cred.yaml
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  apply -f db_deploy.yaml 
+deployment.apps/ashu-db configured
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get  po 
+NAME                       READY   STATUS    RESTARTS   AGE
+ashu-db-5b6f4c7c59-vl8c9   1/1     Running   0          7s
+[ashu@ip-172-31-9-111 day11-project]$ 
+```
