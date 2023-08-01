@@ -122,3 +122,86 @@ spec:
 status: {}
 
 ```
+
+### CoreDNS understanding 
+
+<img src="coredns.png">
+
+### kube-system is the namespace to check k8s internal component 
+
+```
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get  ns  | grep kube
+kube-node-lease        Active   13d
+kube-public            Active   13d
+kube-system            Active   13d
+kubernetes-dashboard   Active   7d8h
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get  po -n kube-system 
+NAME                                       READY   STATUS    RESTARTS       AGE
+calico-kube-controllers-6c99c8747f-r4ghn   1/1     Running   18 (51m ago)   13d
+calico-node-hm9dh                          1/1     Running   19 (51m ago)   13d
+calico-node-j76x4                          1/1     Running   19 (51m ago)   13d
+calico-node-jlvpf                          1/1     Running   19 (51m ago)   13d
+calico-node-tbj8x                          1/1     Running   19 (51m ago)   13d
+coredns-5d78c9869d-gnznw                   1/1     Running   19 (51m ago)   13d
+coredns-5d78c9869d-xvgn7                   1/1     Running   19 (51m ago)   13d
+```
+
+### updating other details as well
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-webapp
+  name: ashu-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-webapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-webapp
+    spec:
+      containers:
+      - image: wordpress:6.2.1-apache
+        name: wordpress
+        ports:
+        - containerPort: 80
+        resources: {}
+        env: # call env data
+        - name: WORDPRESS_DB_HOST
+          value: ashu-db-lb # name of the servcie 
+        - name: WORDPRESS_DB_NAME
+          value: wordpress 
+        envFrom:
+        - secretRef:
+            name: ashu-user-cred1
+status: {}
+
+```
+
+### make sure you have secret 
+
+```
+apiVersion: v1
+data:
+  WORDPRESS_DB_PASSWORD: SGVsbG9AMTIz
+  WORDPRESS_DB_USER: YXNodQ==
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: ashu-user-cred1
+
+```
+
+### apply 
+
+```
+
+```
