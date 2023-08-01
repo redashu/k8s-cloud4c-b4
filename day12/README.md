@@ -203,5 +203,36 @@ metadata:
 ### apply 
 
 ```
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  create -f  webapp_deploy.yaml 
+deployment.apps/ashu-webapp created
+
+[ashu@ip-172-31-9-111 day11-project]$ kubectl   get deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-db       1/1     1            1           23h
+ashu-webapp   1/1     1            1           13s
+
+[ashu@ip-172-31-9-111 day11-project]$ kubectl   get  po 
+NAME                           READY   STATUS    RESTARTS   AGE
+ashu-db-5b6f4c7c59-vl8c9       1/1     Running   0          41m
+ashu-webapp-65674446d9-zzzs6   1/1     Running   0          16s
+[ashu@ip-172-31-9-111 day11-project]$ 
+```
+
+### exposing webapp using nodeport / loadbalancer service
 
 ```
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get  deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-db       1/1     1            1           23h
+ashu-webapp   1/1     1            1           3m48s
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  expose  deployment ashu-webapp --type NodePort --port 80 --name ashulb1 --dry-run=client -o yaml >weblb.yaml 
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  create -f weblb.yaml 
+service/ashulb1 created
+[ashu@ip-172-31-9-111 day11-project]$ kubectl  get  svc
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+ashu-db-lb   ClusterIP   10.96.101.231   <none>        3306/TCP       23h
+ashulb1      NodePort    10.107.147.3    <none>        80:31742/TCP   3s
+[ashu@ip-172-31-9-111 day11-project]$ 
+
+```
+
