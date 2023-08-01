@@ -238,7 +238,7 @@ ashulb1      NodePort    10.107.147.3    <none>        80:31742/TCP   3s
 
 ### Traffic flow understanding 
 
-<img src="svctr.png">
+<img src="svctf.png">
 
 ### k9s cluster setup 
 
