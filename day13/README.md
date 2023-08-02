@@ -149,12 +149,13 @@ spec:
         - containerPort: 80
         resources: {}
         envFrom:
-        - configMapKeyRef:
-            name: ashu-web-config
-        envFrom:
         - secretRef:
             name: ashu-user-cred1
+        - configMapRef: 
+            name: ashu-web-config
+          
 status: {}
+
 
 ```
 
