@@ -194,6 +194,16 @@ ashulb1      NodePort    10.108.231.225   <none>        80:30860/TCP   3s
 [ashu@ip-172-31-9-111 day11-project]$ 
 ```
 
+## Replacing multiple external LB by using Ingress controller 
+
+<img src="ing.png">
+
+### with and without Ingress based service routing 
+
+<img src="ingress.png">
+
+
+
 
 
 
