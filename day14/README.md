@@ -146,3 +146,120 @@ No resources found in ashu-space namespace.
 
 ```
 
+### k8s overall
+
+<img src="exp.png">
+
+### Introduction to HPA in k8s
+
+<img src="hpa.png">
+
+### creating sample app for testing auto scaling 
+
+```
+[ashu@ip-172-31-9-111 ashu-apps]$ mkdir  hpa
+[ashu@ip-172-31-9-111 ashu-apps]$ cd hpa/
+[ashu@ip-172-31-9-111 hpa]$ kubectl   create  deployment  ashu-webapp --image=dockerashu/reactapp:version1 --port 3000 --dry-run=client -o yaml  >deploy.yaml 
+[ashu@ip-172-31-9-111 hpa]$ ls
+deploy.yaml
+[ashu@ip-172-31-9-111 hpa]$ 
+```
+
+### modify manifest file
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-webapp
+  name: ashu-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-webapp
+  strategy: {}
+  template: # template 
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-webapp
+    spec:
+      containers:
+      - image: dockerashu/reactapp:version1
+        name: reactapp
+        ports:
+        - containerPort: 3000
+        resources: 
+          requests: # manadotary process for HPA 
+            memory: 100M
+            cpu: 100m  #  1 core cpu = 1000m (mili core)
+          limits:
+            memory: 400M # max allowed ram 
+            cpu: 200m # max allowed CPU 
+status: {}
+
+```
+
+### Deploy manifest
+
+```
+ashu@ip-172-31-9-111 hpa]$ kubectl  apply -f deploy.yaml 
+deployment.apps/ashu-webapp created
+[ashu@ip-172-31-9-111 hpa]$ kubectl  get  deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-webapp   1/1     1            1           5s
+[ashu@ip-172-31-9-111 hpa]$ kubectl  get  po 
+NAME                          READY   STATUS    RESTARTS   AGE
+ashu-webapp-d9cb6cb7c-8j484   1/1     Running   0          7s
+[ashu@ip-172-31-9-111 hpa]$ 
+```
+
+### exposing ti using Nodeport 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-webapp
+  name: lb1
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: ashu-webapp
+  type: NodePort
+status:
+  loadBalancer: {}
+
+```
+
+### app
+
+```
+[ashu@ip-172-31-9-111 hpa]$ kubectl  get svc
+NAME   TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+lb1    NodePort   10.106.194.175   <none>        3000:30856/TCP   101s
+[ashu@ip-172-31-9-111 hpa]$ 
+
+```
+
+### creating HPA rule in manifest
+
+```
+[ashu@ip-172-31-9-111 hpa]$ kubectl  get  deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-webapp   1/1     1            1           5m16s
+[ashu@ip-172-31-9-111 hpa]$ kubectl  autoscale  deployment  ashu-webapp  --min 2 --max 20 --cpu-percent 80 --dry-run=client -o yaml >autoscale.yaml 
+[ashu@ip-172-31-9-111 hpa]$ 
+```
+
+
+
+
