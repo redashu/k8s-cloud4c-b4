@@ -260,6 +260,25 @@ ashu-webapp   1/1     1            1           5m16s
 [ashu@ip-172-31-9-111 hpa]$ 
 ```
 
+### Deploy HPA manifest
+
+```
+[ashu@ip-172-31-9-111 hpa]$ kubectl  apply -f autoscale.yaml 
+horizontalpodautoscaler.autoscaling/ashu-webapp created
+[ashu@ip-172-31-9-111 hpa]$ kubectl  get  hpa
+NAME          REFERENCE                TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+ashu-webapp   Deployment/ashu-webapp   <unknown>/80%   2         20        0          3s
+[ashu@ip-172-31-9-111 hpa]$ kubectl  get  hpa
+NAME          REFERENCE                TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+ashu-webapp   Deployment/ashu-webapp   <unknown>/80%   2         20        1          24s
+[ashu@ip-172-31-9-111 hpa]$ kubectl  get po
+NAME                          READY   STATUS    RESTARTS   AGE
+ashu-webapp-d9cb6cb7c-8j484   1/1     Running   0          13m
+ashu-webapp-d9cb6cb7c-qmsxr   1/1     Running   0          13s
+[ashu@ip-172-31-9-111 hpa]$ 
+```
+
+
 
 
 
