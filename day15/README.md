@@ -39,3 +39,22 @@ ashu-cm            1      4s
 kube-root-ca.crt   1      15m
 ```
 
+### creating secret to store cred
+
+```
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  create secret  generic  ashu-db-cred --from-env-file  dbcred.env   --dry-run=client  -o yaml >secret.yaml 
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  apply -f secret.yaml 
+secret/ashu-db-cred created
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  get secret
+NAME           TYPE     DATA   AGE
+ashu-db-cred   Opaque   3      6s
+[ashu@ip-172-31-9-111 day15-storage-check]$ 
+```
+
+### dbcred.env
+
+```
+MYSQL_ROOT_PASSWORD="Root@db098"
+MYSQL_USER="ashu"
+MYSQL_PASSWORD="AshuDb@123"
+```
