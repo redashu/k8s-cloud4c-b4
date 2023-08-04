@@ -58,3 +58,60 @@ MYSQL_ROOT_PASSWORD="Root@db098"
 MYSQL_USER="ashu"
 MYSQL_PASSWORD="AshuDb@123"
 ```
+
+### updating deployment manifest to consume configmap and secret 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashudb
+  name: ashudb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashudb
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashudb
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        envFrom:
+        - secretRef:
+            name: ashu-db-cred
+        - configMapRef:
+            name: ashu-cm
+
+status: {}
+
+```
+
+### lets deploy it
+
+```
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  apply -f deploy.yaml 
+deployment.apps/ashudb created
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  get deploy
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb   1/1     1            1           4s
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  get po
+NAME                      READY   STATUS    RESTARTS   AGE
+ashudb-597564c847-q6rw6   1/1     Running   0          8s
+[ashu@ip-172-31-9-111 day15-storage-check]$ 
+
+
+```
+
+
+
