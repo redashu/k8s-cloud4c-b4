@@ -113,5 +113,67 @@ ashudb-597564c847-q6rw6   1/1     Running   0          8s
 
 ```
 
+### checking container 
+
+```
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  get  po 
+NAME                      READY   STATUS    RESTARTS   AGE
+ashudb-597564c847-5t5fj   1/1     Running   0          94s
+[ashu@ip-172-31-9-111 day15-storage-check]$ 
+[ashu@ip-172-31-9-111 day15-storage-check]$ 
+[ashu@ip-172-31-9-111 day15-storage-check]$ kubectl  exec  -it ashudb-597564c847-5t5fj -- bash 
+bash-4.4# 
+bash-4.4# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| "ashudb"           |
+| hellocloud4c       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> create  database helloworld;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| "ashudb"           |
+| hellocloud4c       |
+| helloworld         |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> exit;
+Bye
+bash-4.4# exit
+exit
+[ashu@ip-172-31-9-111 day15-storage-check]$ 
+```
+
+
 
 
