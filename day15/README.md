@@ -174,6 +174,61 @@ exit
 [ashu@ip-172-31-9-111 day15-storage-check]$ 
 ```
 
+## Introducing Storage in k8s 
 
+<img src="st.png">
+
+### deployment manifest with volume section 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashudb
+  name: ashudb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashudb
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashudb
+    spec:
+      nodeName: node2 
+      volumes: # creating volumes 
+      - name: ashu-db-vol1 
+        hostPath:
+          path: /db/ashudata/ # this will be created by kubelet 
+          type: DirectoryOrCreate # if not present then create it 
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        volumeMounts: # to attach volume inside contaienr 
+        - name: ashu-db-vol1
+          mountPath: /var/lib/mysql/ 
+        envFrom:
+        - secretRef:
+            name: ashu-db-cred
+        - configMapRef:
+            name: ashu-cm
+
+status: {}
+
+```
+
+### lets create it 
+
+```
+kubectl  replace -f deploy.yaml --force
+```
 
 
