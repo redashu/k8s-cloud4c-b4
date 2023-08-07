@@ -160,5 +160,38 @@ NAME                               READY   STATUS    RESTARTS   AGE
 ashu-secure-app-599bbd6685-wp4lk   1/1     Running   0          8s
 ```
 
+## Creating project 2
+
+<img src="pro2.png">
+
+### Creating details about Mongodb 
+
+### credfile 
+
+---mongo-cred.env
+```
+MONGO_INITDB_ROOT_USERNAME=ashu
+MONGO_INITDB_ROOT_PASSWORD=AshuDb@098
+```
+
+### creating secret using above cred file
+
+```
+[ashu@ip-172-31-9-111 day16-mongo-project]$ ls
+mongo-cred.env
+
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  create secret generic  ashu-mongo-cred --from-env-file mongo-cred.env --dry-run=client -o yaml >secret.yaml
+
+[ashu@ip-172-31-9-111 day16-mongo-project]$ ls
+mongo-cred.env  secret.yaml
+
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  create -f secret.yaml 
+secret/ashu-mongo-cred created
+
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  get secrets 
+NAME              TYPE     DATA   AGE
+ashu-mongo-cred   Opaque   2      4s
+[ashu@ip-172-31-9-111 day16-mongo-project]$ 
+```
 
 
