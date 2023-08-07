@@ -91,3 +91,20 @@ server {
     #access_log  /var/log/nginx/host.access.log  main;
 
 ```
+
+### creating configmap using nginx configuration 
+
+### 
+```
+ 795  kubectl create configmap ashu-nginx-conf  --from-file default.conf  --dry-run=client  -o yaml >cm.yaml 
+  796  history 
+[ashu@ip-172-31-9-111 day16-pre-project]$ ls
+cm.yaml  default.conf  deploy.yaml  svc.yaml
+[ashu@ip-172-31-9-111 day16-pre-project]$ kubectl create -f cm.yaml 
+configmap/ashu-nginx-conf created
+[ashu@ip-172-31-9-111 day16-pre-project]$ kubectl  get  cm
+NAME               DATA   AGE
+ashu-nginx-conf    1      4s
+```
+
+
