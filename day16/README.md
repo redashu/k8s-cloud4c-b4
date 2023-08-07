@@ -194,4 +194,70 @@ ashu-mongo-cred   Opaque   2      4s
 [ashu@ip-172-31-9-111 day16-mongo-project]$ 
 ```
 
+### mongo_deployment.yaml 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-mongo
+  name: ashu-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-mongo
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-mongo
+    spec:
+      containers:
+      - image: mongo
+        name: mongo
+        ports:
+        - containerPort: 27017
+        resources: 
+          requests:
+            memory: 400M 
+            cpu: 200m 
+          limits:
+            memory: 2G
+            cpu: 700m 
+        envFrom:
+        - secretRef:
+            name: ashu-mongo-cred
+status: {}
+
+```
+
+### 
+
+```
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  apply -f mongo_deploy.yaml 
+deployment.apps/ashu-mongo created
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  get  deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-mongo   0/1     1            0           3s
+
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  get  po
+NAME                          READY   STATUS              RESTARTS   AGE
+ashu-mongo-75cc4796fb-cb4bg   0/1     ContainerCreating   0          6s
+
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  logs ashu-mongo-75cc4796fb-cb4bg 
+Error from server (BadRequest): container "mongo" in pod "ashu-mongo-75cc4796fb-cb4bg" is waiting to start: ContainerCreating
+
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  get  po
+NAME                          READY   STATUS    RESTARTS   AGE
+ashu-mongo-75cc4796fb-cb4bg   1/1     Running   0          16s
+[ashu@ip-172-31-9-111 day16-mongo-project]$ kubectl  logs ashu-mongo-75cc4796fb-cb4bg 
+about to fork child process, waiting until server is ready for connections.
+forked process: 27
+
+{"t":{"$date":"2023-08-07T13:14:03.478+00:00"},"s":"I",  "c":"CONTROL",  "id":20698,   "ctx":"-","msg":"***** SERVER RESTARTED *****"}
+```
 
