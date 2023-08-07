@@ -107,4 +107,58 @@ NAME               DATA   AGE
 ashu-nginx-conf    1      4s
 ```
 
+### updated deployment manifest 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-secure-app
+  name: ashu-secure-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-secure-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-secure-app
+    spec:
+      volumes: # creating volume
+      - name: ashu-ng-vol
+        configMap: # reading source 
+          name: ashu-nginx-conf
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 81
+        resources: {}
+        volumeMounts: # using above created volume 
+        - name: ashu-ng-vol
+          mountPath: /etc/nginx/conf.d/
+status: {}
+
+```
+
+### recreated deployment 
+
+```
+[ashu@ip-172-31-9-111 day16-pre-project]$ kubectl  replace -f deploy.yaml --force
+deployment.apps "ashu-secure-app" deleted
+deployment.apps/ashu-secure-app replaced
+[ashu@ip-172-31-9-111 day16-pre-project]$ kubectl  get  deploy
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-secure-app   1/1     1            1           4s
+[ashu@ip-172-31-9-111 day16-pre-project]$ kubectl  get  pod
+NAME                               READY   STATUS    RESTARTS   AGE
+ashu-secure-app-599bbd6685-wp4lk   1/1     Running   0          8s
+```
+
+
 
