@@ -186,5 +186,45 @@ ashudb                     2/2     Running   0          22s
 [ashu@ip-172-31-9-111 day17-testing]$ 
 ```
 
+### accessing particular container 
+
+```
+ashu@ip-172-31-9-111 day17-testing]$ kubectl  get po
+NAME                       READY   STATUS    RESTARTS   AGE
+ashu-dep-f6db987bc-xwtm6   1/1     Running   0          32m
+ashudb                     2/2     Running   0          3m59s
+[ashu@ip-172-31-9-111 day17-testing]$ 
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  exec -it ashudb  -- sh 
+Defaulted container "ashuc1" out of: ashuc1, ashudb
+/ # 
+/ # ls
+bin    etc    lib    mnt    proc   run    srv    tmp    var
+dev    home   media  opt    root   sbin   sys    usr
+/ # cd  /mnt/data/
+/mnt/data # ls
+#ib_16384_0.dblwr   binlog.000002       ib_buffer_pool      performance_schema  undo_001
+#ib_16384_1.dblwr   binlog.index        ibdata1             private_key.pem     undo_002
+#innodb_redo        ca-key.pem          ibtmp1              public_key.pem
+#innodb_temp        ca.pem              mysql               server-cert.pem
+auto.cnf            client-cert.pem     mysql.ibd           server-key.pem
+binlog.000001       client-key.pem      mysql.sock          sys
+/mnt/data # rm ca.pem
+rm: remove 'ca.pem'? y
+rm: can't remove 'ca.pem': Read-only file system
+/mnt/data # exit
+command terminated with exit code 1
+[ashu@ip-172-31-9-111 day17-testing]$ 
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  exec -it ashudb -c ashudb  -- sh 
+sh-4.4# 
+sh-4.4# cd /var/lib/mysql
+sh-4.4# ls
+'#ib_16384_0.dblwr'   binlog.000001   client-cert.pem   mysql                public_key.pem    undo_002
+'#ib_16384_1.dblwr'   binlog.000002   client-key.pem    mysql.ibd            server-cert.pem
+'#innodb_redo'        binlog.index    ib_buffer_pool    mysql.sock           server-key.pem
+'#innodb_temp'        ca-key.pem      ibdata1           performance_schema   sys
+ auto.cnf             ca.pem          ibtmp1            private_key.pem      undo_001
+sh-4.4# exit
+exit
+```
 
 
