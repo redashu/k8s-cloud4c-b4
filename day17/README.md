@@ -125,4 +125,66 @@ ashu-dep-f6db987bc-xwtm6   1/1     Running   0          7s
 [ashu@ip-172-31-9-111 day17-testing]$ 
 ```
 
+### Multi contaienr pod 
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: ashudb
+  name: ashudb
+spec:
+  volumes: 
+  - name: ashu-volx9
+    hostPath:
+      path: /data/new/ashudb
+      type: DirectoryOrCreate
+  containers:
+  - image: alpine 
+    name: ashuc1
+    command: ['sh','-c','sleep 100000']
+    volumeMounts:
+    - name: ashu-volx9
+      mountPath: /mnt/data/
+      readOnly: true 
+  - image: mysql
+    name: ashudb
+    ports:
+    - containerPort: 3306
+    resources: {}
+    env: 
+    - name: MYSQL_ROOT_PASSWORD
+      value: RootDb@1234
+    volumeMounts:
+    - name:  ashu-volx9
+      mountPath: /var/lib/mysql/
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+
+### creating it
+
+```
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  create -f task.yaml 
+pod/ashudb created
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get po
+NAME                       READY   STATUS              RESTARTS   AGE
+ashu-dep-f6db987bc-xwtm6   1/1     Running             0          28m
+ashudb                     0/2     ContainerCreating   0          3s
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get po
+NAME                       READY   STATUS              RESTARTS   AGE
+ashu-dep-f6db987bc-xwtm6   1/1     Running             0          28m
+ashudb                     0/2     ContainerCreating   0          9s
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get po
+NAME                       READY   STATUS    RESTARTS   AGE
+ashu-dep-f6db987bc-xwtm6   1/1     Running   0          28m
+ashudb                     2/2     Running   0          22s
+[ashu@ip-172-31-9-111 day17-testing]$ 
+```
+
+
 
