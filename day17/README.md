@@ -32,4 +32,33 @@ spec:
 ashu-pv-newst     5Gi        RWX            Retain           Available                                    manual                  68s
 ```
 
+### PVC is all about sending request to pv and finding the best match 
 
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ashu-cliam-new
+spec:
+  accessModes:
+    - ReadWriteMany
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 6Gi
+  storageClassName: manual 
+  
+```
+
+### 
+
+```
+[ashu@ip-172-31-9-111 day17-testing]$ ls
+ashu-pvc.yaml  ashupv.yaml
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  create -f ashu-pvc.yaml 
+persistentvolumeclaim/ashu-cliam-new created
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get  pvc
+NAME             STATUS   VOLUME      CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+ashu-cliam-new   Bound    mahesh-pv   6Gi        RWX            manual         3s
+[ashu@ip-172-31-9-111 day17-testing]$ 
+```
