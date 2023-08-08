@@ -23,3 +23,13 @@ spec:
     server: 172.31.9.111 # storage server IP address 
 ```
 
+### creating pv 
+
+```
+ kubectl  create -f ashupv.yaml
+===
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get  pv  | grep -i avai
+ashu-pv-newst     5Gi        RWX            Retain           Available                                    manual                  68s
+```
+
+
