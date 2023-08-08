@@ -62,3 +62,67 @@ NAME             STATUS   VOLUME      CAPACITY   ACCESS MODES   STORAGECLASS   A
 ashu-cliam-new   Bound    mahesh-pv   6Gi        RWX            manual         3s
 [ashu@ip-172-31-9-111 day17-testing]$ 
 ```
+
+### creating deployment 
+
+```
+kubectl  create  deployment ashu-dep --image=mysql:8.0 --port 3306 --dry-run=client -o yaml >dbdep.yaml
+```
+
+### manifest file for deployment 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-dep
+  name: ashu-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-dep
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-dep
+    spec:
+      volumes:
+      - name: ashu-db-volx1
+        persistentVolumeClaim:
+          claimName: ashu-cliam-new 
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        ports:
+        - containerPort: 3306
+        resources: {}
+        env: 
+        - name: MYSQL_ROOT_PASSWORD
+          value: RootPass@123
+        volumeMounts:
+        - name: ashu-db-volx1
+          mountPath: /var/lib/mysql/
+status: {}
+
+```
+
+### creating it 
+
+```
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  create -f dbdep.yaml 
+deployment.apps/ashu-dep created
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get deploy 
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-dep   1/1     1            1           4s
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get po
+NAME                       READY   STATUS    RESTARTS   AGE
+ashu-dep-f6db987bc-xwtm6   1/1     Running   0          7s
+[ashu@ip-172-31-9-111 day17-testing]$ 
+```
+
+
