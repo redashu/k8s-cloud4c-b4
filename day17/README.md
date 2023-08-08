@@ -227,4 +227,62 @@ sh-4.4# exit
 exit
 ```
 
+### understanding Daemonset in k8s
+
+<img src="ds.png">
+
+### manifest 
+
+```
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-d1
+  name: ashu-d1
+spec:
+  selector:
+    matchLabels:
+      app: ashu-d1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-d1
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+
+```
+
+### -- 
+
+```
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  create -f ds.yaml 
+daemonset.apps/ashu-d1 created
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get  ds
+NAME      DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+ashu-d1   3         3         3       3            3           <none>          3s
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get  no
+NAME         STATUS   ROLES           AGE   VERSION
+masternode   Ready    control-plane   20d   v1.27.3
+node1        Ready    <none>          20d   v1.27.3
+node2        Ready    <none>          20d   v1.27.3
+node3        Ready    <none>          20d   v1.27.3
+[ashu@ip-172-31-9-111 day17-testing]$ kubectl  get  po -o wide
+NAME            READY   STATUS    RESTARTS   AGE   IP                NODE    NOMINATED NODE   READINESS GATES
+ashu-d1-bb86j   1/1     Running   0          28s   192.168.135.19    node3   <none>           <none>
+ashu-d1-jzdlx   1/1     Running   0          28s   192.168.104.57    node2   <none>           <none>
+ashu-d1-mtsg6   1/1     Running   0          28s   192.168.166.134   node1   <none>           <none>
+[ashu@ip-172-31-9-111 day17-testing]$ 
+```
+
+
+
 
