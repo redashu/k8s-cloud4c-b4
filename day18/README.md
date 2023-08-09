@@ -121,3 +121,53 @@ lb1    NodePort   10.97.210.201   <none>        9443:31560/TCP,8000:32296/TCP   
 
 ```
 
+### Health in k8s 
+
+<img src="health.png">
+
+### Creating deployment manifest
+
+```
+kubectl  create deployment ashu-app-health --image=dockerashu/ashuweb-ui:app4 --port 80 --dry-run=client -o yaml        >deployment.yaml 
+```
+
+### adding readinessprobe
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-app-health
+  name: ashu-app-health
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-app-health
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-app-health
+    spec:
+      containers:
+      - image: dockerashu/ashuweb-ui:app4
+        name: ashuweb-ui
+        ports:
+        - containerPort: 80
+        resources: {}
+        readinessProbe: # this section is for checking health of container
+          httpGet:
+            path: /health.html
+            port: 80 
+          periodSeconds: 3  # interval time 
+          initialDelaySeconds: 5 # when app need warmup time to start 
+status: {}
+
+```
+
+
+
