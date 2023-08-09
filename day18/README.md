@@ -50,7 +50,7 @@ spec:
         name: portainer-ce
         ports:
         - containerPort: 9443
-        - containerPort: 8000
+        - containerPort: 9000
         volumeMounts:
         - name: ashu-socket-volume
           mountPath: /var/run/docker.sock
@@ -80,3 +80,44 @@ Priority:         0
 Service Account:  default
 Node:             node3/172.31.0.13
 ```
+
+### creating svc manifest 
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-mon
+  name: lb1
+spec:
+  ports:
+  - port: 9443
+    name: https-based
+    protocol: TCP
+    targetPort: 9443
+  - port: 9000
+    name: http-based
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: ashu-mon
+  type: NodePort
+status:
+  loadBalancer: {}
+
+```
+
+### creating svc
+
+```
+[ashu@ip-172-31-9-111 day18-things]$ kubectl  create -f svc.yaml 
+service/lb1 created
+[ashu@ip-172-31-9-111 day18-things]$ kubectl  get  svc
+NAME   TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                         AGE
+lb1    NodePort   10.97.210.201   <none>        9443:31560/TCP,8000:32296/TCP   3s
+[ashu@ip-172-31-9-111 day18-things]$ 
+
+```
+
