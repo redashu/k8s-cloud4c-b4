@@ -17,3 +17,66 @@ kube-system   calico-node   4         4         4       4            4          
 kube-system   kube-proxy    4         4         4       4            4           kubernetes.io/os=linux   21d
 [ashu@ip-172-31-9-111 day18-things]$ 
 ```
+
+### Deployment of portainer in k8s as Deployment controller 
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashu-mon
+  name: ashu-mon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashu-mon
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashu-mon
+    spec:
+      volumes: 
+      - name: ashu-socket-volume
+        hostPath:
+          path: /var/run/docker.sock
+          type: Socket 
+      containers:
+      - image: portainer/portainer-ce
+        name: portainer-ce
+        ports:
+        - containerPort: 9443
+        - containerPort: 8000
+        volumeMounts:
+        - name: ashu-socket-volume
+          mountPath: /var/run/docker.sock
+        resources: {}
+status: {}
+
+```
+
+### deploy it
+
+```
+[ashu@ip-172-31-9-111 day18-things]$ kubectl apply -f portainer.yaml 
+deployment.apps/ashu-mon created
+[ashu@ip-172-31-9-111 day18-things]$ kubectl  get deploy
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashu-mon   0/1     1            0           5s
+[ashu@ip-172-31-9-111 day18-things]$ kubectl  get po
+NAME                        READY   STATUS              RESTARTS   AGE
+ashu-mon-6749cc5448-j2sc8   0/1     ContainerCreating   0          6s
+[ashu@ip-172-31-9-111 day18-things]$ kubectl  get po
+NAME                        READY   STATUS    RESTARTS   AGE
+ashu-mon-6749cc5448-j2sc8   1/1     Running   0          7s
+[ashu@ip-172-31-9-111 day18-things]$ kubectl  describe pod ashu-mon-6749cc5448-j2sc8 
+Name:             ashu-mon-6749cc5448-j2sc8
+Namespace:        ashu-space
+Priority:         0
+Service Account:  default
+Node:             node3/172.31.0.13
+```
