@@ -70,5 +70,83 @@ release "ashu-app" uninstalled
 
 ```
 
+## Creating custom helm charts 
 
+### directory for project
+
+```
+[ashu@ip-172-31-9-111 ashu-apps]$ mkdir helm-projects
+[ashu@ip-172-31-9-111 ashu-apps]$ ls
+ashu-k8s-manifest  day15-storage-check  day16-pre-project  day18-things  dbdep.yaml     hpa       labs.txt  python-app
+day11-project      day16-mongo-project  day17-testing      day7-app      helm-projects  java-app  node-app  ui-app
+[ashu@ip-172-31-9-111 ashu-apps]$ cd helm-projects/
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+[ashu@ip-172-31-9-111 helm-projects]$ 
+[ashu@ip-172-31-9-111 helm-projects]$ helm create  ashu-ui-app
+Creating ashu-ui-app
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app
+[ashu@ip-172-31-9-111 helm-projects]$ 
+
+```
+
+### see structure 
+
+```
+ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app
+
+[ashu@ip-172-31-9-111 helm-projects]$ ls  ashu-ui-app/
+charts  Chart.yaml  templates  values.yaml
+[ashu@ip-172-31-9-111 helm-projects]$ 
+
+```
+
+### chart template
+
+```
+[ashu@ip-172-31-9-111 helm-projects]$ ls  ashu-ui-app/templates/
+deployment.yaml  _helpers.tpl  hpa.yaml  ingress.yaml  NOTES.txt  serviceaccount.yaml  service.yaml  tests
+[ashu@ip-172-31-9-111 helm-projects]$ 
+
+```
+
+### importance of values.yaml 
+
+<img src="imp.png">
+
+### deploy charts locally 
+
+```
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app
+[ashu@ip-172-31-9-111 helm-projects]$ helm install cloud4rc-ui   ./ashu-ui-app/ 
+NAME: cloud4rc-ui
+LAST DEPLOYED: Thu Aug 10 12:35:32 2023
+NAMESPACE: ashu-space
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+1. Get the application URL by running these commands:
+  export NODE_PORT=$(kubectl get --namesp
+
+======>>
+[ashu@ip-172-31-9-111 helm-projects]$ helm   ls
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                  APP VERSION
+cloud4rc-ui     ashu-space      1
+
+===>>
+006  helm ls
+ 1007  ls
+ 1008  helm upgrade cloud4rc-ui  ./ashu-ui-app/
+ 1009  helm ls
+ 1010  kubectl  get  po
+ 1011  history 
+[ashu@ip-172-31-9-111 helm-projects]$ kubectl  get  po
+NAME                                       READY   STATUS    RESTARTS   AGE
+cloud4rc-ui-ashu-ui-app-584585c764-bjdhw   1/1     Running   0          5m53s
+cloud4rc-ui-ashu-ui-app-584585c764-gth6m   1/1     Running   0          12s
+[ashu@ip-172-31-9-111 helm-projects]$  
+```
 
