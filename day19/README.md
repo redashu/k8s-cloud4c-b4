@@ -150,3 +150,32 @@ cloud4rc-ui-ashu-ui-app-584585c764-gth6m   1/1     Running   0          12s
 [ashu@ip-172-31-9-111 helm-projects]$  
 ```
 
+### replace values.yaml 
+
+```
+[ashu@ip-172-31-9-111 helm-projects]$ helm install cc-app ./ashu-ui-app/  --values values.yaml  
+NAME: cc-app
+LAST DEPLOYED: Thu Aug 10 12:46:38 2023
+NAMESPACE: ashu-space
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace ashu-space -l "app.kubernetes.io/name=ashu-ui-app,app.kubernetes.io/instance=cc-app" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace ashu-space $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace ashu-space port-forward $POD_NAME 8080:$CONTAINER_PORT
+[ashu@ip-172-31-9-111 helm-projects]$ helm ls
+NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+cc-app  ashu-space      1               2023-08-10 12:46:38.904236612 +0000 UTC deployed        ashu-ui-app-0.1.0       1.16.0     
+[ashu@ip-172-31-9-111 helm-projects]$ kubectl  get  po
+NAME                                  READY   STATUS    RESTARTS   AGE
+cc-app-ashu-ui-app-5fbd59b859-xq5ct   1/1     Running   0          14s
+[ashu@ip-172-31-9-111 helm-projects]$ kubectl  get  svc
+NAME                 TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+cc-app-ashu-ui-app   ClusterIP   10.102.229.141   <none>        3000/TCP   16s
+[ashu@ip-172-31-9-111 helm-projects]$ 
+```
+
+
