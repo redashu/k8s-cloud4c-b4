@@ -178,4 +178,79 @@ cc-app-ashu-ui-app   ClusterIP   10.102.229.141   <none>        3000/TCP   16s
 [ashu@ip-172-31-9-111 helm-projects]$ 
 ```
 
+### packaging chart for publish
+
+<img src="pkg.png">
+
+### pulling sample package from repo 
+
+```
+[ashu@ip-172-31-9-111 helm-projects]$ helm search repo mysql 
+NAME                                    CHART VERSION   APP VERSION     DESCRIPTION                                       
+ashu-repo/mysql                         9.10.9          8.0.34          MySQL is a fast, reliable, scalable, and easy t...
+new-repo/mysql                          1.6.9           5.7.30          DEPRECATED - Fast, reliable, scalable, and easy...
+new-repo/mysqldump                      2.6.2           2.4.1           DEPRECATED! - A Helm chart to help backup MySQL...
+new-repo/prometheus-mysql-exporter      0.7.1           v0.11.0         DEPRECATED A Helm chart for prometheus mysql ex...
+ashu-repo/phpmyadmin                    12.0.0          5.2.1           phpMyAdmin is a free software tool written in P...
+new-repo/percona                        1.2.3           5.7.26          DEPRECATED - free, fully compatible, enhanced, ...
+new-repo/percona-xtradb-cluster         1.0.8           5.7.19          DEPRECATED - free, fully compatible, enhanced, ...
+new-repo/phpmyadmin                     4.3.5           5.0.1           DEPRECATED phpMyAdmin is an mysql administratio...
+ashu-repo/mariadb                       13.0.0          11.0.2          MariaDB is an open source, community-developed ...
+ashu-repo/mariadb-galera                9.0.1           11.0.2          MariaDB Galera is a multi-primary database clus...
+new-repo/gcloud-sqlproxy                0.6.1           1.11            DEPRECATED Google Cloud SQL Proxy                 
+new-repo/mariadb                        7.3.14          10.3.22         DEPRECATED Fast, reliable, scalable, and easy t...
+
+[ashu@ip-172-31-9-111 helm-projects]$ 
+[ashu@ip-172-31-9-111 helm-projects]$ helm pull ashu-repo/mariadb
+
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app  mariadb-13.0.0.tgz  values.yaml
+[ashu@ip-172-31-9-111 helm-projects]$ 
+
+```
+
+### untaring the package 
+
+```
+ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app  mariadb-13.0.0.tgz  values.yaml
+[ashu@ip-172-31-9-111 helm-projects]$ tar  xvzf  mariadb-13.0.0.tgz 
+mariadb/Chart.yaml
+mariadb/Chart.lock
+mariadb/values.yaml
+mariadb/values.schema.json
+mariadb/templates/NOTES.txt
+```
+
+### checking more detail
+
+```
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app  mariadb  mariadb-13.0.0.tgz  values.yaml
+[ashu@ip-172-31-9-111 helm-projects]$ cd mariadb/
+[ashu@ip-172-31-9-111 mariadb]$ ls
+Chart.lock  charts  Chart.yaml  README.md  templates  values.schema.json  values.yaml
+[ashu@ip-172-31-9-111 mariadb]$ ls  templates/
+extra-list.yaml  networkpolicy-egress.yaml  primary               rolebinding.yaml  secondary     serviceaccount.yaml
+_helpers.tpl     NOTES.txt                  prometheusrules.yaml  role.yaml         secrets.yaml  servicemonitor.yaml
+[ashu@ip-172-31-9-111 mariadb]$ 
+
+```
+
+### converting chart into a package 
+
+```
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app  mariadb  mariadb-13.0.0.tgz  values.yaml
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app  mariadb  mariadb-13.0.0.tgz  values.yaml
+[ashu@ip-172-31-9-111 helm-projects]$ 
+[ashu@ip-172-31-9-111 helm-projects]$ helm package  ashu-ui-app/
+Successfully packaged chart and saved it to: /home/ashu/ashu-apps/helm-projects/ashu-ui-app-0.1.0.tgz
+[ashu@ip-172-31-9-111 helm-projects]$ ls
+ashu-ui-app  ashu-ui-app-0.1.0.tgz  mariadb  mariadb-13.0.0.tgz  values.yaml
+[ashu@ip-172-31-9-111 helm-projects]$ 
+```
+
+
 
