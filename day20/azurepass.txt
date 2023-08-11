@@ -1,0 +1,9 @@
+Registry URL: cloud4c.azurecr.io
+username: cloud4c
+password: 92xPDI5p/PsV3ZQJH6aqp2lr/a5MfUes4umrOnyYWD+ACRCnabdo
+
+====> Images
+
+mongodb image:  cloud4c.azurecr.io/mongo:dbv1 
+
+node express image:  cloud4c.azurecr.io/mongo-express:v1 
